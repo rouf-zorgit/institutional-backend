@@ -8,27 +8,27 @@ const envSchema = z.object({
     PORT: z.string().default('3001'),
 
     // Database
-    DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),
-    DATABASE_POOLER_URL: z.string().min(1, 'DATABASE_POOLER_URL is required'),
+    DATABASE_URL: z.string().optional(),
+    DATABASE_POOLER_URL: z.string().optional(),
 
     // Supabase
-    SUPABASE_URL: z.string().url('Invalid SUPABASE_URL'),
-    SUPABASE_ANON_KEY: z.string().min(1, 'SUPABASE_ANON_KEY is required'),
-    SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, 'SUPABASE_SERVICE_ROLE_KEY is required'),
+    SUPABASE_URL: z.string().url('Invalid SUPABASE_URL').optional(),
+    SUPABASE_ANON_KEY: z.string().optional(),
+    SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
 
     // JWT
-    JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters'),
-    JWT_REFRESH_SECRET: z.string().min(32, 'JWT_REFRESH_SECRET must be at least 32 characters'),
+    JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters').optional(),
+    JWT_REFRESH_SECRET: z.string().min(32, 'JWT_REFRESH_SECRET must be at least 32 characters').optional(),
     JWT_EXPIRES_IN: z.string().default('15m'),
     JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
 
     // Redis
-    UPSTASH_REDIS_REST_URL: z.string().url('Invalid UPSTASH_REDIS_REST_URL'),
-    UPSTASH_REDIS_REST_TOKEN: z.string().min(1, 'UPSTASH_REDIS_REST_TOKEN is required'),
+    UPSTASH_REDIS_REST_URL: z.string().url('Invalid UPSTASH_REDIS_REST_URL').optional(),
+    UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 
     // Application
-    API_URL: z.string().url('Invalid API_URL'),
-    FRONTEND_URL: z.string().url('Invalid FRONTEND_URL'),
+    API_URL: z.string().url('Invalid API_URL').optional(),
+    FRONTEND_URL: z.string().url('Invalid FRONTEND_URL').optional(),
     ALLOWED_ORIGINS: z.string().default('http://localhost:3000'),
 
     // Rate Limiting
@@ -47,21 +47,51 @@ const envSchema = z.object({
     SENTRY_DSN: z.string().url().optional().or(z.literal('')),
 });
 
+// Post-process validation to handle fallbacks
+const validateEnv = (data: any) => {
+    const raw = envSchema.parse(data);
+
+    // Fallback logic for Database
+    const final_db_url = raw.DATABASE_URL || raw.DATABASE_POOLER_URL;
+    const final_db_pooler = raw.DATABASE_POOLER_URL || raw.DATABASE_URL;
+
+    if (!final_db_url) {
+        throw new Error('Either DATABASE_URL or DATABASE_POOLER_URL must be provided');
+    }
+
+    // Critical check for Production
+    if (raw.NODE_ENV === 'production') {
+        if (!raw.JWT_SECRET || !raw.JWT_REFRESH_SECRET) {
+            throw new Error('JWT secrets are required in production');
+        }
+        if (!raw.SUPABASE_URL || !raw.SUPABASE_SERVICE_ROLE_KEY) {
+            throw new Error('Supabase credentials are required in production');
+        }
+    }
+
+    return {
+        ...raw,
+        DATABASE_URL: final_db_url,
+        DATABASE_POOLER_URL: final_db_pooler,
+    };
+};
+
 // Validate environment variables
 const parseEnv = () => {
     try {
-        return envSchema.parse(process.env);
-    } catch (error) {
+        return validateEnv(process.env);
+    } catch (error: any) {
+        console.error('❌ CRITICAL: Environment validation failed!');
+        console.error(error.message || error);
+
         if (error instanceof z.ZodError) {
-            console.error('❌ CRITICAL: Invalid environment variables detected!');
-            console.error('The application is failing to start because the following variables are missing or invalid:');
             error.errors.forEach((err) => {
                 console.error(`👉 ${err.path.join('.')}: ${err.message}`);
             });
-            console.error('Please check your Vercel Dashboard -> Settings -> Environment Variables.');
-            process.exit(1);
         }
-        throw error;
+
+        console.error('Please check your Vercel Dashboard -> Settings -> Environment Variables.');
+        process.exit(1);
     }
 };
 

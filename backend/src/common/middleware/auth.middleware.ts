@@ -32,7 +32,7 @@ export const authenticate = async (
         }
 
         // 3. Verify token (stateless - no DB query!)
-        const decoded = jwt.verify(token, config.jwt.secret) as any;
+        const decoded = jwt.verify(token, config.jwt.secret as string) as any;
 
         if (decoded.type !== 'access') {
             throw new AppError(401, 'Invalid token type', 'INVALID_TOKEN');

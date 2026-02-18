@@ -3,8 +3,8 @@ import { config } from './env';
 
 // Client for server-side operations (uses service role key)
 export const supabaseAdmin = createClient(
-    config.supabase.url,
-    config.supabase.serviceRoleKey,
+    config.supabase.url as string,
+    config.supabase.serviceRoleKey as string,
     {
         auth: {
             autoRefreshToken: false,
@@ -15,8 +15,8 @@ export const supabaseAdmin = createClient(
 
 // Client for user-facing operations (uses anon key)
 export const supabase = createClient(
-    config.supabase.url,
-    config.supabase.anonKey
+    config.supabase.url as string,
+    config.supabase.anonKey as string
 );
 
 export default supabase;

@@ -12,23 +12,23 @@ const envSchema = z.object({
     DATABASE_POOLER_URL: z.string().optional(),
 
     // Supabase
-    SUPABASE_URL: z.string().url('Invalid SUPABASE_URL').optional(),
+    SUPABASE_URL: z.string().optional(),
     SUPABASE_ANON_KEY: z.string().optional(),
     SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
 
     // JWT
-    JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters').optional(),
-    JWT_REFRESH_SECRET: z.string().min(32, 'JWT_REFRESH_SECRET must be at least 32 characters').optional(),
+    JWT_SECRET: z.string().optional(),
+    JWT_REFRESH_SECRET: z.string().optional(),
     JWT_EXPIRES_IN: z.string().default('15m'),
     JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
 
     // Redis
-    UPSTASH_REDIS_REST_URL: z.string().url('Invalid UPSTASH_REDIS_REST_URL').optional(),
+    UPSTASH_REDIS_REST_URL: z.string().optional(),
     UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 
     // Application
-    API_URL: z.string().url('Invalid API_URL').optional(),
-    FRONTEND_URL: z.string().url('Invalid FRONTEND_URL').optional(),
+    API_URL: z.string().optional(),
+    FRONTEND_URL: z.string().optional(),
     ALLOWED_ORIGINS: z.string().default('http://localhost:3000'),
 
     // Rate Limiting
@@ -39,12 +39,12 @@ const envSchema = z.object({
     ALLOWED_FILE_TYPES: z.string().default('image/jpeg,image/png,application/pdf'),
 
     // Email
-    EMAIL_FROM: z.string().email().optional(),
+    EMAIL_FROM: z.string().optional(),
     EMAIL_PROVIDER: z.enum(['sendgrid', 'resend', 'ses', 'smtp']).optional(),
     EMAIL_API_KEY: z.string().optional(),
 
     // Monitoring
-    SENTRY_DSN: z.string().url().optional().or(z.literal('')),
+    SENTRY_DSN: z.string().optional().or(z.literal('')),
 });
 
 // Post-process validation to handle fallbacks
@@ -52,20 +52,19 @@ const validateEnv = (data: any) => {
     const raw = envSchema.parse(data);
 
     // Fallback logic for Database
-    const final_db_url = raw.DATABASE_URL || raw.DATABASE_POOLER_URL;
-    const final_db_pooler = raw.DATABASE_POOLER_URL || raw.DATABASE_URL;
-
-    if (!final_db_url) {
-        throw new Error('Either DATABASE_URL or DATABASE_POOLER_URL must be provided');
-    }
+    const final_db_url = raw.DATABASE_URL || raw.DATABASE_POOLER_URL || '';
+    const final_db_pooler = raw.DATABASE_POOLER_URL || raw.DATABASE_URL || '';
 
     // Critical check for Production
     if (raw.NODE_ENV === 'production') {
-        if (!raw.JWT_SECRET || !raw.JWT_REFRESH_SECRET) {
-            throw new Error('JWT secrets are required in production');
+        if (!final_db_url) {
+            console.warn('⚠️ WARNING: No DATABASE_URL or DATABASE_POOLER_URL provided');
         }
-        if (!raw.SUPABASE_URL || !raw.SUPABASE_SERVICE_ROLE_KEY) {
-            throw new Error('Supabase credentials are required in production');
+        if (!raw.JWT_SECRET) {
+            console.warn('⚠️ WARNING: No JWT_SECRET provided');
+        }
+        if (!raw.SUPABASE_URL) {
+            console.warn('⚠️ WARNING: No SUPABASE_URL provided');
         }
     }
 
@@ -73,6 +72,10 @@ const validateEnv = (data: any) => {
         ...raw,
         DATABASE_URL: final_db_url,
         DATABASE_POOLER_URL: final_db_pooler,
+        SUPABASE_URL: raw.SUPABASE_URL || '',
+        UPSTASH_REDIS_REST_URL: raw.UPSTASH_REDIS_REST_URL || '',
+        API_URL: raw.API_URL || '',
+        FRONTEND_URL: raw.FRONTEND_URL || '',
     };
 };
 

@@ -37,6 +37,18 @@ if (config.isDevelopment) {
 import apiRoutes from './api';
 app.use('/api', apiRoutes);
 
+// Root route
+app.get('/', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Welcome to the GetSetGo API',
+        endpoints: {
+            health: '/health',
+            api: '/api/v1'
+        }
+    });
+});
+
 // Health check endpoint
 import { prisma } from './common/config/database';
 import { redis } from './common/config/redis';

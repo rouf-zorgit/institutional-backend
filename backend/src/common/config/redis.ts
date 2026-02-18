@@ -1,7 +1,9 @@
 import { createClient } from 'redis';
+import { Redis as UpstashRedis } from '@upstash/redis';
 import { config } from './env';
 import { logger } from '../utils/logger.service';
 
+// 1. Standard Redis Client (TCP) - used for caching
 export const redis = createClient({
     username: config.redis.username,
     password: config.redis.password,
@@ -14,8 +16,11 @@ export const redis = createClient({
 
 redis.on('error', (err) => logger.error('Redis Client Error', { error: err.message }));
 
-// Note: In Node-Redis v4+, you must call .connect() explicitly.
-// This will be handled in app.ts or during first use.
+// 2. Upstash Redis Client (REST) - used specifically for @upstash/ratelimit
+export const upstashRedis = new UpstashRedis({
+    url: config.redis.url as string,
+    token: config.redis.token as string,
+});
 
 // Cache TTL constants (in seconds)
 export const CacheTTL = {

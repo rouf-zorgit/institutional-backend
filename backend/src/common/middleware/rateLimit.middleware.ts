@@ -1,13 +1,13 @@
 import { Ratelimit } from '@upstash/ratelimit';
 import { Request, Response, NextFunction } from 'express';
-import redis from '../config/redis';
+import { upstashRedis } from '../config/redis';
 import { config } from '../config/env';
 
 // Different rate limiters for different use cases
 export const rateLimiters = {
     // Authentication endpoints - strict
     auth: new Ratelimit({
-        redis,
+        redis: upstashRedis,
         limiter: Ratelimit.slidingWindow(5, '1 m'), // 5 requests per minute
         analytics: true,
         prefix: 'ratelimit:auth',
@@ -15,7 +15,7 @@ export const rateLimiters = {
 
     // Public API - moderate
     public: new Ratelimit({
-        redis,
+        redis: upstashRedis,
         limiter: Ratelimit.slidingWindow(100, '1 m'), // 100 requests per minute
         analytics: true,
         prefix: 'ratelimit:public',
@@ -23,7 +23,7 @@ export const rateLimiters = {
 
     // Authenticated users - generous
     authenticated: new Ratelimit({
-        redis,
+        redis: upstashRedis,
         limiter: Ratelimit.slidingWindow(1000, '1 m'), // 1000 requests per minute
         analytics: true,
         prefix: 'ratelimit:authenticated',
@@ -31,7 +31,7 @@ export const rateLimiters = {
 
     // Admin operations - very generous
     admin: new Ratelimit({
-        redis,
+        redis: upstashRedis,
         limiter: Ratelimit.slidingWindow(5000, '1 m'), // 5000 requests per minute
         analytics: true,
         prefix: 'ratelimit:admin',
@@ -39,7 +39,7 @@ export const rateLimiters = {
 
     // File uploads - strict
     upload: new Ratelimit({
-        redis,
+        redis: upstashRedis,
         limiter: Ratelimit.slidingWindow(10, '1 h'), // 10 uploads per hour
         analytics: true,
         prefix: 'ratelimit:upload',

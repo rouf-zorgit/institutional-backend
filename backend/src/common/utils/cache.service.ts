@@ -9,7 +9,11 @@ export class CacheService {
             const data = await redis.get(key);
             if (!data) return null;
 
-            return typeof data === 'string' ? JSON.parse(data) : (data as T);
+            try {
+                return JSON.parse(data) as T;
+            } catch {
+                return data as unknown as T;
+            }
         } catch (error) {
             console.error('Cache get error:', error);
             return null;
@@ -21,10 +25,10 @@ export class CacheService {
      */
     static async set(key: string, value: any, ttl?: number): Promise<void> {
         try {
-            const serialized = JSON.stringify(value);
+            const serialized = typeof value === 'string' ? value : JSON.stringify(value);
 
             if (ttl) {
-                await redis.setex(key, ttl, serialized);
+                await redis.set(key, serialized, { EX: ttl });
             } else {
                 await redis.set(key, serialized);
             }
@@ -51,7 +55,8 @@ export class CacheService {
         try {
             const keys = await redis.keys(pattern);
             if (keys.length > 0) {
-                await redis.del(...keys);
+                // In Node-Redis, del can take an array of strings
+                await redis.del(keys);
             }
         } catch (error) {
             console.error('Cache invalidate pattern error:', error);
@@ -108,7 +113,8 @@ export class CacheService {
      */
     static async increment(key: string, by: number = 1): Promise<number> {
         try {
-            return await redis.incrby(key, by);
+            const val = await redis.incrBy(key, by);
+            return typeof val === 'number' ? val : parseInt(String(val), 10) || 0;
         } catch (error) {
             console.error('Cache increment error:', error);
             return 0;

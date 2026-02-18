@@ -80,7 +80,8 @@ app.get('/health', async (req, res) => {
     try {
         await redis.ping();
         health.services.redis = 'connected';
-    } catch (error) {
+    } catch (error: any) {
+        logger.error('Redis health check failed', { error: error.message });
         health.services.redis = 'disconnected';
         health.status = 'unhealthy';
     }

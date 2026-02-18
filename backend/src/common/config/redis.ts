@@ -1,10 +1,21 @@
-import { Redis } from '@upstash/redis';
+import { createClient } from 'redis';
 import { config } from './env';
+import { logger } from '../utils/logger.service';
 
-export const redis = new Redis({
-    url: config.redis.url,
-    token: config.redis.token,
+export const redis = createClient({
+    username: config.redis.username,
+    password: config.redis.password,
+    socket: {
+        host: config.redis.host,
+        port: config.redis.port,
+        reconnectStrategy: (retries) => Math.min(retries * 50, 2000)
+    }
 });
+
+redis.on('error', (err) => logger.error('Redis Client Error', { error: err.message }));
+
+// Note: In Node-Redis v4+, you must call .connect() explicitly.
+// This will be handled in app.ts or during first use.
 
 // Cache TTL constants (in seconds)
 export const CacheTTL = {

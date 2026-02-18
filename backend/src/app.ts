@@ -108,6 +108,15 @@ app.use(errorHandler);
 // Start server
 const PORT = config.port;
 
+// Initialize Redis connection
+if (!redis.isOpen) {
+    redis.connect().then(() => {
+        logger.info('Redis connected');
+    }).catch((error) => {
+        logger.error('Failed to connect to Redis', error);
+    });
+}
+
 // Initialize storage service
 StorageService.initialize().then(() => {
     logger.info('Storage service initialized');

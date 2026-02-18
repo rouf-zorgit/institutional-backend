@@ -22,7 +22,13 @@ const envSchema = z.object({
     JWT_EXPIRES_IN: z.string().default('15m'),
     JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
 
-    // Redis
+    // Redis (Standard)
+    REDIS_HOST: z.string().optional(),
+    REDIS_PORT: z.string().optional(),
+    REDIS_USERNAME: z.string().optional().default('default'),
+    REDIS_PASSWORD: z.string().optional(),
+
+    // Redis (Upstash - Deprecated but kept for transition)
     UPSTASH_REDIS_REST_URL: z.string().optional(),
     UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 
@@ -127,6 +133,11 @@ export const config = {
     },
 
     redis: {
+        host: env.REDIS_HOST,
+        port: parseInt(env.REDIS_PORT || '14074', 10),
+        username: env.REDIS_USERNAME,
+        password: env.REDIS_PASSWORD,
+        // Legacy Upstash support
         url: env.UPSTASH_REDIS_REST_URL,
         token: env.UPSTASH_REDIS_REST_TOKEN,
     },

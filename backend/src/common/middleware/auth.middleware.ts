@@ -88,7 +88,7 @@ export const optionalAuthenticate = async (
             return next();
         }
 
-        const decoded = jwt.verify(token, config.jwt.secret) as any;
+        const decoded = jwt.verify(token, config.jwt.secret as string) as any;
 
         if (decoded.type === 'access') {
             req.user = {

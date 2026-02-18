@@ -12,7 +12,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { SubmitAssignmentForm } from "@/components/assignments/SubmitAssignmentForm";
 import { SubmissionsList } from "@/components/assignments/SubmissionsList";
-import { cookies } from "next/headers"; // Can't use in client component
 import { getCookie } from "cookies-next"; // Or just document.cookie
 
 export default function AssignmentDetailsPage() {

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/api";
 import { User } from "@/types";

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/api";
 import { Loader2, Plus, Edit, Trash2, Search, Filter, MoreHorizontal, BookOpen } from "lucide-react";

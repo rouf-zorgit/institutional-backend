@@ -1,6 +1,8 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/api";
-import { Loader2, Plus, Calendar, Edit, Trash2, Users, Search } from "lucide-react";
+import { Loader2, Plus, Calendar, Edit, Trash2, Users, Search, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {

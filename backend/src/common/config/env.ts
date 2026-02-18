@@ -53,10 +53,12 @@ const parseEnv = () => {
         return envSchema.parse(process.env);
     } catch (error) {
         if (error instanceof z.ZodError) {
-            console.error('❌ Invalid environment variables:');
+            console.error('❌ CRITICAL: Invalid environment variables detected!');
+            console.error('The application is failing to start because the following variables are missing or invalid:');
             error.errors.forEach((err) => {
-                console.error(`  ${err.path.join('.')}: ${err.message}`);
+                console.error(`👉 ${err.path.join('.')}: ${err.message}`);
             });
+            console.error('Please check your Vercel Dashboard -> Settings -> Environment Variables.');
             process.exit(1);
         }
         throw error;

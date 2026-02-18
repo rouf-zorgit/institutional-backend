@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { SubmissionsController } from './submissions.controller';
-import { authenticate } from '@/common/middleware/auth.middleware';
-import { authorize } from '@/common/middleware/role.middleware';
-import { validate } from '@/common/middleware/validation.middleware';
+import { authenticate } from '../../common/middleware/auth.middleware';
+import { authorize } from '../../common/middleware/role.middleware';
+import { validate } from '../../common/middleware/validation.middleware';
 import { createSubmissionSchema, gradeSubmissionSchema } from './submissions.validation';
-import { asyncHandler } from '@/common/middleware/errorHandler.middleware';
+import { asyncHandler } from '../../common/middleware/errorHandler.middleware';
 
 const router = Router();
 

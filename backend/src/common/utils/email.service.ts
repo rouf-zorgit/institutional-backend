@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { prisma } from '@/common/config/database';
+import { prisma } from '../../common/config/database';
 import { logger } from './logger.service';
 
 type EmailType = 'REGISTRATION_APPROVED' | 'REGISTRATION_REJECTED' | 'PAYMENT_APPROVED' | 'PAYMENT_REJECTED' | 'ASSIGNMENT_DEADLINE' | 'LOW_ATTENDANCE';

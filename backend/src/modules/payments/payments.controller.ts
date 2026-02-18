@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { PaymentsService } from './payments.service';
 import { InvoiceService } from './invoice.service';
-import { StorageService } from '@/common/utils/storage.service';
+import { StorageService } from '../../common/utils/storage.service';
 
 export class PaymentsController {
     /**

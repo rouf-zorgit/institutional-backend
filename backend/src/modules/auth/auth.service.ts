@@ -2,12 +2,12 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
-import { prisma } from '@/common/config/database';
-import { config } from '@/common/config/env';
-import { AppError } from '@/common/middleware/errorHandler.middleware';
-import { TokenBlacklistService } from '@/common/utils/tokenBlacklist.service';
-import { logger } from '@/common/utils/logger.service';
-import { EmailService } from '@/common/utils/email.service';
+import { prisma } from '../../common/config/database';
+import { config } from '../../common/config/env';
+import { AppError } from '../../common/middleware/errorHandler.middleware';
+import { TokenBlacklistService } from '../../common/utils/tokenBlacklist.service';
+import { logger } from '../../common/utils/logger.service';
+import { EmailService } from '../../common/utils/email.service';
 import { Role } from '@prisma/client';
 
 interface TokenPayload {

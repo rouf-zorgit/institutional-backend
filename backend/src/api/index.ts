@@ -1,19 +1,19 @@
 import { Router } from 'express';
-import authRoutes from '@/modules/auth/auth.routes';
-import usersRoutes from '@/modules/users/users.routes';
-import paymentsRoutes from '@/modules/payments/payments.routes';
-import coursesRoutes from '@/modules/courses/courses.routes';
-import batchRoutes from '@/modules/batch/batch.routes';
-import registrationRoutes from '@/modules/registration/registration.routes';
-import enrollmentRoutes from '@/modules/enrollment/enrollment.routes';
-import attendanceRoutes from '@/modules/attendance/attendance.routes';
-import notificationRoutes from '@/modules/notifications/notification.routes';
-import auditRoutes from '@/modules/audit/audit.routes';
-import reportingRoutes from '@/modules/reporting/reporting.routes';
-import assignmentsRoutes from '@/modules/assignments/assignments.routes';
-import studyMaterialsRoutes from '@/modules/study-materials/study-materials.routes';
-import uploadRoutes from '@/modules/upload/upload.routes';
-import submissionRoutes from '@/modules/submissions/submissions.routes';
+import authRoutes from '../modules/auth/auth.routes';
+import usersRoutes from '../modules/users/users.routes';
+import paymentsRoutes from '../modules/payments/payments.routes';
+import coursesRoutes from '../modules/courses/courses.routes';
+import batchRoutes from '../modules/batch/batch.routes';
+import registrationRoutes from '../modules/registration/registration.routes';
+import enrollmentRoutes from '../modules/enrollment/enrollment.routes';
+import attendanceRoutes from '../modules/attendance/attendance.routes';
+import notificationRoutes from '../modules/notifications/notification.routes';
+import auditRoutes from '../modules/audit/audit.routes';
+import reportingRoutes from '../modules/reporting/reporting.routes';
+import assignmentsRoutes from '../modules/assignments/assignments.routes';
+import studyMaterialsRoutes from '../modules/study-materials/study-materials.routes';
+import uploadRoutes from '../modules/upload/upload.routes';
+import submissionRoutes from '../modules/submissions/submissions.routes';
 
 const router = Router();
 

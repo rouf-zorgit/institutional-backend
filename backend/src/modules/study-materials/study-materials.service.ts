@@ -1,4 +1,4 @@
-import { prisma } from '@/common/config/database';
+import { prisma } from '../../common/config/database';
 import { MaterialType } from '@prisma/client';
 
 interface CreateStudyMaterialInput {

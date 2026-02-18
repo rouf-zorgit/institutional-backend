@@ -1,4 +1,4 @@
-import { prisma } from '@/common/config/database';
+import { prisma } from '../../common/config/database';
 // DTOs are defined locally or can be moved to a separate file later
 
 // Define DTO interfaces locally if not in a separate file for now to keep it self-contained in this step

@@ -1,6 +1,6 @@
-import { prisma } from '@/common/config/database';
-import { AppError } from '@/common/middleware/errorHandler.middleware';
-import { logger } from '@/common/utils/logger.service';
+import { prisma } from '../../common/config/database';
+import { AppError } from '../../common/middleware/errorHandler.middleware';
+import { logger } from '../../common/utils/logger.service';
 import { AttendanceStatus, Prisma } from '@prisma/client';
 
 export class AttendanceService {

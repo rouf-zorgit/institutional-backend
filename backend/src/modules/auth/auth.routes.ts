@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { AuthController } from './auth.controller';
-import { validate } from '@/common/middleware/validation.middleware';
-import { authenticate } from '@/common/middleware/auth.middleware';
-import { authorize } from '@/common/middleware/role.middleware';
-import { rateLimitMiddleware, rateLimiters } from '@/common/middleware/rateLimit.middleware';
+import { validate } from '../../common/middleware/validation.middleware';
+import { authenticate } from '../../common/middleware/auth.middleware';
+import { authorize } from '../../common/middleware/role.middleware';
+import { rateLimitMiddleware, rateLimiters } from '../../common/middleware/rateLimit.middleware';
 import {
     loginSchema,
     registerSchema,

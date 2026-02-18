@@ -1,7 +1,7 @@
-import { prisma } from '@/common/config/database';
-import { AppError } from '@/common/middleware/errorHandler.middleware';
+import { prisma } from '../../common/config/database';
+import { AppError } from '../../common/middleware/errorHandler.middleware';
 import { RegistrationStatus, EnrollmentStatus } from '@prisma/client';
-import { logger } from '@/common/utils/logger.service';
+import { logger } from '../../common/utils/logger.service';
 
 export class RegistrationService {
     /**

@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { StudyMaterialsController } from './study-materials.controller';
-import { authenticate } from '@/common/middleware/auth.middleware';
-import { authorize } from '@/common/middleware/role.middleware';
-import { validate } from '@/common/middleware/validation.middleware';
-import { asyncHandler } from '@/common/middleware/errorHandler.middleware';
+import { authenticate } from '../../common/middleware/auth.middleware';
+import { authorize } from '../../common/middleware/role.middleware';
+import { validate } from '../../common/middleware/validation.middleware';
+import { asyncHandler } from '../../common/middleware/errorHandler.middleware';
 import * as validation from './study-materials.validation';
 
 const router = Router();

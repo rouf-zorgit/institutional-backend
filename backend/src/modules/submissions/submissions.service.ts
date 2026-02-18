@@ -1,4 +1,4 @@
-import { prisma } from '@/common/config/database';
+import { prisma } from '../../common/config/database';
 import { CreateSubmissionDto, GradeSubmissionDto } from './submissions.validation';
 
 export class SubmissionsService {

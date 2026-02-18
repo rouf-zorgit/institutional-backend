@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { AssignmentsController } from './assignments.controller';
-import { authenticate } from '@/common/middleware/auth.middleware';
-import { authorize } from '@/common/middleware/role.middleware'; // Assuming this middleware exists from snippets
-import { validate } from '@/common/middleware/validation.middleware';
-import { asyncHandler } from '@/common/middleware/errorHandler.middleware';
+import { authenticate } from '../../common/middleware/auth.middleware';
+import { authorize } from '../../common/middleware/role.middleware'; // Assuming this middleware exists from snippets
+import { validate } from '../../common/middleware/validation.middleware';
+import { asyncHandler } from '../../common/middleware/errorHandler.middleware';
 import * as validation from './assignments.validation';
 
 const router = Router();

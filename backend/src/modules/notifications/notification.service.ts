@@ -1,7 +1,7 @@
-import { prisma } from '@/common/config/database';
-import { AppError } from '@/common/middleware/errorHandler.middleware';
-import { logger } from '@/common/utils/logger.service';
-import { EmailService } from '@/common/utils/email.service';
+import { prisma } from '../../common/config/database';
+import { AppError } from '../../common/middleware/errorHandler.middleware';
+import { logger } from '../../common/utils/logger.service';
+import { EmailService } from '../../common/utils/email.service';
 import { NotificationType, Prisma, Role } from '@prisma/client';
 
 export class NotificationService {

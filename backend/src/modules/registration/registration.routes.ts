@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { RegistrationController } from './registration.controller';
-import { validate } from '@/common/middleware/validation.middleware';
-import { authenticate } from '@/common/middleware/auth.middleware';
-import { hasPermission } from '@/common/middleware/rbac.middleware';
-import { Permission } from '@/common/types/permissions';
+import { validate } from '../../common/middleware/validation.middleware';
+import { authenticate } from '../../common/middleware/auth.middleware';
+import { hasPermission } from '../../common/middleware/rbac.middleware';
+import { Permission } from '../../common/types/permissions';
 import * as validation from './registration.validation';
 
 const router = Router();

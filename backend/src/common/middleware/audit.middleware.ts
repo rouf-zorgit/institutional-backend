@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { AuditService } from '@/modules/audit/audit.service';
-import { logger } from '@/common/utils/logger.service';
+import { AuditService } from '../../modules/audit/audit.service';
+import { logger } from '../../common/utils/logger.service';
 
 /**
  * Middleware to automatically log actions to audit trail

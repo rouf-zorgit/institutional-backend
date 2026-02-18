@@ -1,6 +1,6 @@
-import { prisma } from '@/common/config/database';
-import { logger } from '@/common/utils/logger.service';
-import { ExportService } from '@/common/utils/export.service';
+import { prisma } from '../../common/config/database';
+import { logger } from '../../common/utils/logger.service';
+import { ExportService } from '../../common/utils/export.service';
 import { Prisma } from '@prisma/client';
 
 export class ReportingService {

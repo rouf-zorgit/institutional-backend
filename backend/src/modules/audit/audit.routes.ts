@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { AuditController } from './audit.controller';
-import { authenticate } from '@/common/middleware/auth.middleware';
-import { authorize } from '@/common/middleware/role.middleware';
-import { asyncHandler } from '@/common/middleware/errorHandler.middleware';
+import { authenticate } from '../../common/middleware/auth.middleware';
+import { authorize } from '../../common/middleware/role.middleware';
+import { asyncHandler } from '../../common/middleware/errorHandler.middleware';
 import { Role } from '@prisma/client';
 
 const router = Router();

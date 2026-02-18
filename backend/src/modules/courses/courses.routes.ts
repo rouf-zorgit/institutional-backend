@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { CoursesController } from './courses.controller';
-import { validate } from '@/common/middleware/validation.middleware';
-import { authenticate } from '@/common/middleware/auth.middleware';
-import { hasPermission } from '@/common/middleware/rbac.middleware';
-import { Permission } from '@/common/types/permissions';
+import { validate } from '../../common/middleware/validation.middleware';
+import { authenticate } from '../../common/middleware/auth.middleware';
+import { hasPermission } from '../../common/middleware/rbac.middleware';
+import { Permission } from '../../common/types/permissions';
 import * as validation from './courses.validation';
 
 const router = Router();

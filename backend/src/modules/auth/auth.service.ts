@@ -33,7 +33,7 @@ export class AuthService {
                 status: user.status,
                 type: 'access',
             },
-            config.jwt.secret,
+            config.jwt.secret as string,
             { expiresIn: config.jwt.expiresIn as jwt.SignOptions['expiresIn'] }
         );
     }
@@ -50,7 +50,7 @@ export class AuthService {
                 type: 'refresh',
                 jti,
             },
-            config.jwt.refreshSecret,
+            config.jwt.refreshSecret as string,
             { expiresIn: config.jwt.refreshExpiresIn as jwt.SignOptions['expiresIn'] }
         );
     }
@@ -90,7 +90,7 @@ export class AuthService {
         const refreshToken = this.generateRefreshToken(user.id);
 
         // 5. Store refresh token in database
-        const decoded = jwt.decode(refreshToken) as TokenPayload;
+        const decoded = jwt.decode(refreshToken) as unknown as TokenPayload;
         await prisma.session.create({
             data: {
                 user_id: user.id,
@@ -133,7 +133,7 @@ export class AuthService {
     static async refresh(refreshToken: string) {
         try {
             // 1. Verify refresh token
-            const decoded = jwt.verify(refreshToken, config.jwt.refreshSecret) as TokenPayload;
+            const decoded = (jwt.verify(refreshToken, config.jwt.refreshSecret as string)) as unknown as TokenPayload;
 
             if (decoded.type !== 'refresh') {
                 throw new AppError(401, 'Invalid token type', 'INVALID_TOKEN');
@@ -161,7 +161,7 @@ export class AuthService {
 
             // 5. Rotate refresh token (security best practice)
             const newRefreshToken = this.generateRefreshToken(session.user.id);
-            const newDecoded = jwt.decode(newRefreshToken) as TokenPayload;
+            const newDecoded = jwt.decode(newRefreshToken) as unknown as TokenPayload;
 
             // Update session with new refresh token
             await prisma.session.update({
@@ -196,7 +196,7 @@ export class AuthService {
         });
 
         // 2. Blacklist access token (until it expires)
-        const decoded = jwt.decode(accessToken) as TokenPayload;
+        const decoded = jwt.decode(accessToken) as unknown as TokenPayload;
         const expiresAt = new Date(decoded.exp! * 1000);
         await TokenBlacklistService.blacklistToken(accessToken, expiresAt);
 
@@ -227,7 +227,7 @@ export class AuthService {
         });
 
         // 2. Blacklist all user tokens
-        const decoded = jwt.decode(accessToken) as TokenPayload;
+        const decoded = jwt.decode(accessToken) as unknown as TokenPayload;
         const expiresAt = new Date(decoded.exp! * 1000);
         await TokenBlacklistService.blacklistUserTokens(userId, expiresAt);
 
@@ -294,7 +294,7 @@ export class AuthService {
         const refreshToken = this.generateRefreshToken(user.id);
 
         // 5. Store refresh token
-        const decoded = jwt.decode(refreshToken) as TokenPayload;
+        const decoded = jwt.decode(refreshToken) as unknown as TokenPayload;
         await prisma.session.create({
             data: {
                 user_id: user.id,
@@ -331,7 +331,7 @@ export class AuthService {
             }
 
             // Verify token
-            const decoded = jwt.verify(token, config.jwt.secret) as TokenPayload;
+            const decoded = (jwt.verify(token, config.jwt.secret as string)) as unknown as TokenPayload;
 
             if (decoded.type !== 'access') {
                 throw new AppError(401, 'Invalid token type', 'INVALID_TOKEN');

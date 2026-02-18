@@ -79,7 +79,13 @@ const validateEnv = (data: any) => {
         DATABASE_URL: final_db_url,
         DATABASE_POOLER_URL: final_db_pooler,
         SUPABASE_URL: raw.SUPABASE_URL || '',
+        SUPABASE_ANON_KEY: raw.SUPABASE_ANON_KEY || '',
+        SUPABASE_SERVICE_ROLE_KEY: raw.SUPABASE_SERVICE_ROLE_KEY || '',
+        JWT_SECRET: raw.JWT_SECRET || '',
+        JWT_REFRESH_SECRET: raw.JWT_REFRESH_SECRET || '',
         UPSTASH_REDIS_REST_URL: raw.UPSTASH_REDIS_REST_URL || '',
+        REDIS_HOST: raw.REDIS_HOST || '',
+        REDIS_PASSWORD: raw.REDIS_PASSWORD || '',
         API_URL: raw.API_URL || '',
         FRONTEND_URL: raw.FRONTEND_URL || '',
     };
@@ -115,36 +121,36 @@ export const config = {
     isTest: env.NODE_ENV === 'test',
 
     database: {
-        url: env.DATABASE_URL,
-        poolerUrl: env.DATABASE_POOLER_URL,
+        url: env.DATABASE_URL as string,
+        poolerUrl: env.DATABASE_POOLER_URL as string,
     },
 
     supabase: {
-        url: env.SUPABASE_URL,
-        anonKey: env.SUPABASE_ANON_KEY,
-        serviceRoleKey: env.SUPABASE_SERVICE_ROLE_KEY,
+        url: env.SUPABASE_URL as string,
+        anonKey: env.SUPABASE_ANON_KEY as string,
+        serviceRoleKey: env.SUPABASE_SERVICE_ROLE_KEY as string,
     },
 
     jwt: {
-        secret: env.JWT_SECRET,
-        refreshSecret: env.JWT_REFRESH_SECRET,
+        secret: env.JWT_SECRET as string,
+        refreshSecret: env.JWT_REFRESH_SECRET as string,
         expiresIn: env.JWT_EXPIRES_IN,
         refreshExpiresIn: env.JWT_REFRESH_EXPIRES_IN,
     },
 
     redis: {
-        host: env.REDIS_HOST,
+        host: env.REDIS_HOST as string,
         port: parseInt(env.REDIS_PORT || '14074', 10),
-        username: env.REDIS_USERNAME,
-        password: env.REDIS_PASSWORD,
+        username: env.REDIS_USERNAME as string,
+        password: env.REDIS_PASSWORD as string,
         // Legacy Upstash support
-        url: env.UPSTASH_REDIS_REST_URL,
-        token: env.UPSTASH_REDIS_REST_TOKEN,
+        url: env.UPSTASH_REDIS_REST_URL as string,
+        token: env.UPSTASH_REDIS_REST_TOKEN as string,
     },
 
     app: {
-        apiUrl: env.API_URL,
-        frontendUrl: env.FRONTEND_URL,
+        apiUrl: env.API_URL as string,
+        frontendUrl: env.FRONTEND_URL as string,
         allowedOrigins: env.ALLOWED_ORIGINS.split(','),
     },
 
